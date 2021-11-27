@@ -63,8 +63,7 @@ def parse_url(comp_url):
 
 
 def prepare_battlezone(params):
-
-
+    # TODO 1: Take competition code from params and hit codechef api to get problem names
 
     project_path = ""
     if not constants.is_setup_done:
@@ -77,3 +76,5 @@ def prepare_battlezone(params):
         project_path = input()
     else:
         project_path = constants.project_path
+
+    # TODO 2: Take problem names and create folder structur with the basic code needed
