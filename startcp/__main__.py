@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 import argparse
-import functions, printer
+from . import functions, printer
 
 
 def main():

@@ -1,4 +1,4 @@
-import printer
+from . import printer
 
 rangebi = printer.Rangebi()
 

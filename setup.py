@@ -7,7 +7,7 @@ from setuptools import setup, find_packages
 setup(
     name='startcp-cli',
     author="Team Stark",
-    version="1.1.2",
+    version="0.0.1",
     url="",
     description="A CLI boiler plate for current competition.",
     packages=["startcp"],
