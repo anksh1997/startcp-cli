@@ -1,7 +1,10 @@
 #! /usr/bin/env python3
 
 import argparse
-from . import functions, printer
+try:
+    from . import functions, printer
+except Exception: #ImportError
+    import functions, printer
 
 
 def main():
