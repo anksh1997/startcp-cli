@@ -1,10 +1,10 @@
 import json
 import requests
+import re
 try:
     from . import printer, constants
 except Exception:
     import printer, constants
-
 
 rangebi = printer.Rangebi()
 
@@ -48,18 +48,31 @@ def run(args):
 
 
 def validate_url(comp_url):
-    return True
+    # regex matching for codechef url
+    codechef_validate_re = re.compile(r"^https://www.codechef.com/(\w+)(\?.*)?$")
+    if(re.match(codechef_validate_re,comp_url)):
+        return True
+    return False
 
+def get_codechef_competition_id(comp_url):
+    codechef_validate_re = re.compile(r"^https://www.codechef.com/(\w+)(\?.*)?$")
+    search_result = re.search(codechef_validate_re,comp_url)
+    try:
+        return search_result.group(1)
+    except:
+        return ""
 
 def parse_url(comp_url):
-
-    params = []
-
-    if "codechef" in comp_url.lower():
-        comp_url_split = comp_url.split("/")
-        params.append(comp_url_split[3])
-
-    return params
+    problem_urls = []
+    codechef_comp_id = get_codechef_competition_id(comp_url)
+    if not (codechef_comp_id == "") :
+        fetch_url = constants.codechef_contest_api_url + codechef_comp_id
+        response = requests.get(fetch_url)
+        if (response.status_code == 200):
+            response = response.json()
+            for problem in response["problems"].keys():
+                problem_urls.append(fetch_url+response["problems"][problem]["problem_url"])
+    return problem_urls
 
 
 def prepare_battlezone(params):
