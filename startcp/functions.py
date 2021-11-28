@@ -1,6 +1,8 @@
 import json
 import requests
 import re
+import os
+
 try:
     from . import printer, constants
 except Exception:
@@ -75,10 +77,7 @@ def parse_url(comp_url):
     return problem_urls
 
 
-def prepare_battlezone(params):
-
-
-
+def prepare_battlezone(problem_urls,comp_id="COMPETITIONS"):
     project_path = ""
     if not constants.is_setup_done:
         print(
@@ -90,3 +89,22 @@ def prepare_battlezone(params):
         project_path = input()
     else:
         project_path = constants.project_path
+    os.chdir(project_path)
+    for problem_url in problem_urls:
+        folder_name = problem_url.split("/")[-1]
+        os.makedirs(folder_name, exist_ok=True)
+        response = requests.get(problem_url)
+        if (response.status_code == 200):
+            response = response.json()
+            for sample_test_case in response["problemComponents"]["sampleTestCases"]:
+                id = sample_test_case["id"]
+                input_str = sample_test_case["input"]
+                output_str = sample_test_case["output"]
+                input_filename = folder_name + "/" + "in" + str(id) + ".txt"
+                output_filename = folder_name + "/" + "out" + str(id) + ".txt"
+                with open(input_filename, "w+") as outfile:
+                    outfile.write(input_str)
+                with open(output_filename, "w+") as outfile:
+                    outfile.write(output_str)
+
+    
