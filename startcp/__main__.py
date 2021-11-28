@@ -21,6 +21,14 @@ def main():
         action="store_true"
     )
 
+    parser.add_argument(
+        "-g",
+        "--generate",
+        default=False,
+        help="Generate startcp_config file",
+        action="store_true"
+    )
+
     args = parser.parse_args()
     functions.run(args)
 

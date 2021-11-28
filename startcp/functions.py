@@ -2,31 +2,50 @@ import json
 import requests
 import re
 import os
+from dotenv import load_dotenv
 
 try:
-    from . import printer, constants
+    from . import printer, constants, codechef
 except Exception:
-    import printer, constants
+    import printer
+    import constants
+    import codechef
+
 
 rangebi = printer.Rangebi()
+
+try:
+    if constants.startcp_config_file.is_file():
+        load_dotenv(dotenv_path=str(constants.startcp_config_file))
+    else:
+        load_dotenv()
+except Exception:
+    load_dotenv()
+    print(rangebi.get_in_info("Custom configuration file not loaded. Please fix the file first."))
+
+platform_id = None
+
 
 def run(args):
 
     comp_url = ''
+
+    if args.generate:
+        generate_start_cp_config_file()
+        return
 
     if args.url:
         comp_url = args.url.lower()
     else:
         print(
             rangebi.get_in_success(
-               "Enter Competition URL:"
+                "Enter Competition URL:"
             ),
             end=" "
         )
         comp_url = input()
 
     if not validate_url(comp_url):
-        printer.new_lines()
         print(
             rangebi.get_in_danger(
                 "URL is not valid. Please try again!"
@@ -34,7 +53,23 @@ def run(args):
         )
         printer.new_lines()
         return
+    else:
+        perform_operations_on_url(comp_url)
 
+
+def validate_url(comp_url):
+    global platform_id
+
+    # regex matching for codechef url
+    codechef_validate_re = re.compile(r"^https://www.codechef.com/(\w+)(\?.*)?$")
+    if(re.match(codechef_validate_re, comp_url)):
+        platform_id = constants.codechef
+        return True
+
+    return False
+
+
+def perform_operations_on_url(comp_url):
     params = parse_url(comp_url)
 
     if len(params) < 1:
@@ -46,65 +81,48 @@ def run(args):
         )
         printer.new_lines()
     else:
-        prepare_battlezone(params)
+        prepare_battlezone(params, comp_url)
 
-
-def validate_url(comp_url):
-    # regex matching for codechef url
-    codechef_validate_re = re.compile(r"^https://www.codechef.com/(\w+)(\?.*)?$")
-    if(re.match(codechef_validate_re,comp_url)):
-        return True
-    return False
-
-def get_codechef_competition_id(comp_url):
-    codechef_validate_re = re.compile(r"^https://www.codechef.com/(\w+)(\?.*)?$")
-    search_result = re.search(codechef_validate_re,comp_url)
-    try:
-        return search_result.group(1)
-    except:
-        return ""
 
 def parse_url(comp_url):
     problem_urls = []
-    codechef_comp_id = get_codechef_competition_id(comp_url)
-    if not (codechef_comp_id == "") :
-        fetch_url = constants.codechef_contest_api_url + codechef_comp_id
-        response = requests.get(fetch_url)
-        if (response.status_code == 200):
-            response = response.json()
-            for problem in response["problems"].keys():
-                problem_urls.append(fetch_url+response["problems"][problem]["problem_url"])
+    if platform_id == constants.codechef:
+        problem_urls = codechef.get_codechef_problem_urls(comp_url)
+
     return problem_urls
 
 
-def prepare_battlezone(problem_urls,comp_id="COMPETITIONS"):
-    project_path = ""
-    if not constants.is_setup_done:
+def prepare_battlezone(problem_urls, comp_url):
+
+    build_ships()
+
+    if platform_id == constants.codechef:
+        codechef.prepare_for_codechef_battle(problem_urls, comp_url)
+
+
+def build_ships():
+    if int(os.getenv(constants.is_setup_done)) == 1:
+        if not (os.getenv(constants.project_path) is None):
+            os.chdir(os.getenv(constants.project_path))
+        else:
+            os.makedirs(constants.startcp_default_folder, exist_ok=True)
+            os.chdir(constants.startcp_default_folder)
+    else:
+        # lets go home by default
+        os.makedirs(constants.startcp_default_folder, exist_ok=True)
+        os.chdir(constants.startcp_default_folder)
+
+
+def generate_start_cp_config_file():
+
+    if constants.startcp_config_file.is_file():
         print(
             rangebi.get_in_success(
-                "Please enter project path:"
-            ),
-            end=" "
+                "Hey! Config file already generated."
+            )
         )
-        project_path = input()
     else:
-        project_path = constants.project_path
-    os.chdir(project_path)
-    for problem_url in problem_urls:
-        folder_name = problem_url.split("/")[-1]
-        os.makedirs(folder_name, exist_ok=True)
-        response = requests.get(problem_url)
-        if (response.status_code == 200):
-            response = response.json()
-            for sample_test_case in response["problemComponents"]["sampleTestCases"]:
-                id = sample_test_case["id"]
-                input_str = sample_test_case["input"]
-                output_str = sample_test_case["output"]
-                input_filename = folder_name + "/" + "in" + str(id) + ".txt"
-                output_filename = folder_name + "/" + "out" + str(id) + ".txt"
-                with open(input_filename, "w+") as outfile:
-                    outfile.write(input_str)
-                with open(output_filename, "w+") as outfile:
-                    outfile.write(output_str)
-
-    
+        start_cp_configuration = """IS_SETUP_DONE = 0\nPROJECT_PATH = /home/user_name \nUSE_TEMPLATE = 0\nMAIN_LANG_TEMPLATE_PATH = /home/user_name \nBACKUP_LANG_TEMPLATE_PATH = /home/user_name \n"""
+        os.makedirs(constants.startcp_default_folder, exist_ok=True)
+        with open(str(constants.startcp_config_file), "w") as f:
+            f.write(start_cp_configuration)
