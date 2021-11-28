@@ -1,10 +1,12 @@
 import json
 import requests
+import re
+import os
+
 try:
     from . import printer, constants
 except Exception:
     import printer, constants
-
 
 rangebi = printer.Rangebi()
 
@@ -48,10 +50,22 @@ def run(args):
 
 
 def validate_url(comp_url):
-    return True
+    # regex matching for codechef url
+    codechef_validate_re = re.compile(r"^https://www.codechef.com/(\w+)(\?.*)?$")
+    if(re.match(codechef_validate_re,comp_url)):
+        return True
+    return False
 
+def get_codechef_competition_id(comp_url):
+    codechef_validate_re = re.compile(r"^https://www.codechef.com/(\w+)(\?.*)?$")
+    search_result = re.search(codechef_validate_re,comp_url)
+    try:
+        return search_result.group(1)
+    except:
+        return ""
 
 def parse_url(comp_url):
+<<<<<<< HEAD
 
     params = []
 
@@ -64,7 +78,21 @@ def parse_url(comp_url):
 
 def prepare_battlezone(params):
     # TODO 1: Take competition code from params and hit codechef api to get problem names
+=======
+    problem_urls = []
+    codechef_comp_id = get_codechef_competition_id(comp_url)
+    if not (codechef_comp_id == "") :
+        fetch_url = constants.codechef_contest_api_url + codechef_comp_id
+        response = requests.get(fetch_url)
+        if (response.status_code == 200):
+            response = response.json()
+            for problem in response["problems"].keys():
+                problem_urls.append(fetch_url+response["problems"][problem]["problem_url"])
+    return problem_urls
 
+>>>>>>> feature_1_parsing_url
+
+def prepare_battlezone(problem_urls,comp_id="COMPETITIONS"):
     project_path = ""
     if not constants.is_setup_done:
         print(
@@ -76,5 +104,27 @@ def prepare_battlezone(params):
         project_path = input()
     else:
         project_path = constants.project_path
+<<<<<<< HEAD
 
     # TODO 2: Take problem names and create folder structur with the basic code needed
+=======
+    os.chdir(project_path)
+    for problem_url in problem_urls:
+        folder_name = problem_url.split("/")[-1]
+        os.makedirs(folder_name, exist_ok=True)
+        response = requests.get(problem_url)
+        if (response.status_code == 200):
+            response = response.json()
+            for sample_test_case in response["problemComponents"]["sampleTestCases"]:
+                id = sample_test_case["id"]
+                input_str = sample_test_case["input"]
+                output_str = sample_test_case["output"]
+                input_filename = folder_name + "/" + "in" + str(id) + ".txt"
+                output_filename = folder_name + "/" + "out" + str(id) + ".txt"
+                with open(input_filename, "w+") as outfile:
+                    outfile.write(input_str)
+                with open(output_filename, "w+") as outfile:
+                    outfile.write(output_str)
+
+    
+>>>>>>> feature_1_parsing_url
