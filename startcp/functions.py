@@ -2,25 +2,23 @@ import json
 import requests
 import re
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 
-try:
-    from . import printer, constants, codechef
-except Exception:
-    import printer
-    import constants
-    import codechef
+from startcp import printer, constants, codechef
+
 
 
 rangebi = printer.Rangebi()
+
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 try:
     if constants.startcp_config_file.is_file():
         load_dotenv(dotenv_path=str(constants.startcp_config_file))
     else:
-        load_dotenv()
+        load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))
 except Exception:
-    load_dotenv()
+    load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))
     print(rangebi.get_in_info("Custom configuration file not loaded. Please fix the file first."))
 
 platform_id = None
@@ -101,7 +99,7 @@ def prepare_battlezone(problem_urls, comp_url):
 
 
 def build_ships():
-    if int(os.getenv(constants.is_setup_done)) == 1:
+    if (not (os.getenv(constants.is_setup_done) is None)) and (int(os.getenv(constants.is_setup_done)) == 1):
         if not (os.getenv(constants.project_path) is None):
             os.chdir(os.getenv(constants.project_path))
         else:

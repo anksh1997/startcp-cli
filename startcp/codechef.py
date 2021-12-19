@@ -3,11 +3,9 @@ from pathlib import Path
 import shutil
 import re
 import requests
-try:
-    from . import printer, constants
-except Exception:
-    import printer
-    import constants  # ignore pep8
+
+from startcp import printer, constants
+
 
 
 rangebi = printer.Rangebi()
@@ -58,7 +56,7 @@ def prepare_for_codechef_battle(problem_urls, comp_url):
                 Path(problem_folder_name + "/" + "problem.html").touch()
 
             tmplt_file_created = True
-            if int(os.getenv(constants.use_template)) == 1:
+            if (not (os.getenv(constants.use_template) is None)) and (int(os.getenv(constants.use_template)) == 1):
                 try:
                     if not (os.getenv(constants.main_lang_template_path) is None):
                         if Path(os.getenv(constants.main_lang_template_path)).is_file():

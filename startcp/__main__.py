@@ -1,10 +1,8 @@
 #! /usr/bin/env python3
 
 import argparse
-try:
-    from . import functions, printer
-except Exception: #ImportError
-    import functions, printer
+from startcp import functions, printer
+
 
 
 def main():
