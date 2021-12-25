@@ -7,15 +7,17 @@ from setuptools import setup, find_packages
 setup(
     name='startcp-cli',
     author="Team Stark",
-    version="0.0.1",
-    url="",
+    version="1.0.0",
+    url="https://github.com/asprazz/startcp-cli",
     description="A CLI boiler plate for current competition.",
     packages=["startcp"],
     install_requires=[
-        'requests>=2.23'
+        'requests>=2.23',
+        'argparse',
+        'colorama',
+        'python-dotenv',
+        'Rangebi'
     ],
-    # we requires python 3+
-    python_requires='>=3.5',
     entry_points={
         'console_scripts': [
             'startcp=startcp.__main__:main'
@@ -23,8 +25,5 @@ setup(
     },
     author_email="ankushpatil6174@gmail.com",
     keywords=["startcp", "codechef", "codeforces", "python"],
-    project_url={
-        "Source Code": "http://github.com/asprazz/startcp-cli",
-    },
     license="MIT"
 )
