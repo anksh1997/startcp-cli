@@ -4,7 +4,7 @@ import re
 import os
 from dotenv import load_dotenv, find_dotenv
 
-from startcp import printer, constants, codechef
+from startcp import printer, constants, codechef, version
 
 
 
@@ -30,6 +30,9 @@ def run(args):
 
     if args.generate:
         generate_start_cp_config_file()
+        return
+    elif args.version:
+        print_version_info()
         return
 
     if args.url:
@@ -124,3 +127,8 @@ def generate_start_cp_config_file():
         os.makedirs(constants.startcp_default_folder, exist_ok=True)
         with open(str(constants.startcp_config_file), "w") as f:
             f.write(start_cp_configuration)
+
+
+def print_version_info():
+    print(f"startcp-cli version {version.string()}")
+    print("Available startcp-cli versions:")

@@ -30,3 +30,6 @@ __pycache__
 .venv/
 env/
 venv/
+
+# VERSION
+/startcp/VERSION

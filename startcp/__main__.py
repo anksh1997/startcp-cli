@@ -26,6 +26,13 @@ def main():
         help="Generate startcp_config file",
         action="store_true"
     )
+    parser.add_argument(
+        "-v",
+        "--version",
+        default=False,
+        help="Print current version of the startcp-cli",
+        action="store_true"
+    )
 
     args = parser.parse_args()
     functions.run(args)
