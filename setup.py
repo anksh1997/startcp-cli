@@ -30,11 +30,6 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     package_data={"startcp-cli": ["VERSION"]},
     include_package_data=True,
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: MIT",
-        "Operating System :: OS Independent",
-    ],
     python_requires=">=3.6",
     entry_points={
             'console_scripts': [
