@@ -41,6 +41,7 @@ setuptools.setup(
         'argparse',
         'colorama',
         'python-dotenv',
-        'Rangebi'
+        'Rangebi',
+        'beautifulsoup4==4.10.0'
     ],
 )

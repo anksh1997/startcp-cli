@@ -5,6 +5,14 @@
     - done
         - use case screenshot added
         - fixed #8
+        - codeforces support new feature for folder segregation
+        - fixed problem.html with pointer to the problem
+
+    - pending
+        - codechef regex fixes
+        - fix #6 linting issues
+        - UI fixes and new things on UI
+        - competition scanner from CLI
 
 
 ## Released
