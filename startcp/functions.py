@@ -4,7 +4,10 @@ import re
 import os
 from dotenv import load_dotenv, find_dotenv
 
-from startcp import printer, constants, codechef, version
+try:
+    import printer, constants, codechef, codeforces, version
+except Exception:
+    from startcp import printer, constants, codechef, codeforces, version
 
 
 
@@ -62,9 +65,15 @@ def validate_url(comp_url):
     global platform_id
 
     # regex matching for codechef url
-    codechef_validate_re = re.compile(r"^https://www.codechef.com/(\w+)(\?.*)?$")
-    if(re.match(codechef_validate_re, comp_url)):
+    regex_validator = re.compile(constants.codechef_regex)
+    if(re.match(regex_validator, comp_url)):
         platform_id = constants.codechef
+        return True
+
+    # regex matching for codeforces url
+    regex_validator = re.compile(constants.codeforces_regex)
+    if(re.match(regex_validator, comp_url)):
+        platform_id = constants.codeforces
         return True
 
     return False
@@ -87,21 +96,25 @@ def perform_operations_on_url(comp_url):
 
 def parse_url(comp_url):
     problem_urls = []
+
     if platform_id == constants.codechef:
         problem_urls = codechef.get_codechef_problem_urls(comp_url)
+    elif platform_id == constants.codeforces:
+        problem_urls = codeforces.get_codeforces_problem_urls(comp_url)
 
     return problem_urls
 
 
 def prepare_battlezone(problem_urls, comp_url):
-
-    build_ships()
+    move_pointer()
 
     if platform_id == constants.codechef:
         codechef.prepare_for_codechef_battle(problem_urls, comp_url)
+    elif platform_id == constants.codeforces:
+        codeforces.prepare_for_codeforces_battle(problem_urls, comp_url)
 
 
-def build_ships():
+def move_pointer():
     if (not (os.getenv(constants.is_setup_done) is None)) and (int(os.getenv(constants.is_setup_done)) == 1):
         if not (os.getenv(constants.project_path) is None):
             os.chdir(os.getenv(constants.project_path))
@@ -123,7 +136,7 @@ def generate_start_cp_config_file():
             )
         )
     else:
-        start_cp_configuration = """IS_SETUP_DONE = 0\nPROJECT_PATH = /home/user_name \nUSE_TEMPLATE = 0\nMAIN_LANG_TEMPLATE_PATH = /home/user_name \nBACKUP_LANG_TEMPLATE_PATH = /home/user_name \n"""
+        start_cp_configuration = """IS_SETUP_DONE = 0\nPROJECT_PATH = /home/user_name \nUSE_TEMPLATE = 0\nMAIN_LANG_TEMPLATE_PATH = /home/user_name \nBACKUP_LANG_TEMPLATE_PATH = /home/user_name \nSEPERATE_FOLDER_STRUCTURE_FOR_DIFFERENT_SITES = 1\nCODECHEF_FOLDER_NAME = Codechef\nCODEFORCES_FOLDER_NAME = Codeforces\n"""
         os.makedirs(constants.startcp_default_folder, exist_ok=True)
         with open(str(constants.startcp_config_file), "w") as f:
             f.write(start_cp_configuration)

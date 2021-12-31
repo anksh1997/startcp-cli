@@ -1,7 +1,10 @@
 #! /usr/bin/env python3
 
 import argparse
-from startcp import functions, printer
+try:
+    import functions, printer
+except Exception:
+    from startcp import functions, printer
 
 
 

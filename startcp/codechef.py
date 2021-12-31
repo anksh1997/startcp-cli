@@ -4,8 +4,10 @@ import shutil
 import re
 import requests
 
-from startcp import printer, constants
-
+try:
+    import printer, constants
+except Exception:
+    from startcp import printer, constants
 
 
 rangebi = printer.Rangebi()
@@ -27,7 +29,7 @@ def get_codechef_problem_urls(comp_url):
 
 
 def get_codechef_competition_id(comp_url):
-    codechef_validate_re = re.compile(r"^https://www.codechef.com/(\w+)(\?.*)?$")
+    codechef_validate_re = re.compile(constants.codechef_regex)
     search_result = re.search(codechef_validate_re, comp_url)
     try:
         return search_result.group(1)
@@ -36,6 +38,14 @@ def get_codechef_competition_id(comp_url):
 
 
 def prepare_for_codechef_battle(problem_urls, comp_url):
+
+    if (not (os.getenv(constants.is_setup_done) is None)) and (int(os.getenv(constants.is_setup_done)) == 1):
+        if (not (os.getenv(constants.codechef_folder_name) is None)) and (len(os.getenv(constants.codechef_folder_name)) > 0):
+            os.makedirs(os.getenv(constants.codechef_folder_name), exist_ok=True)
+            os.chdir(os.getenv(constants.codechef_folder_name))
+        else:
+            os.makedirs(constants.codechef, exist_ok=True)
+            os.chdir(constants.codechef)
 
     codechef_comp_id = get_codechef_competition_id(comp_url)
     os.makedirs(codechef_comp_id, exist_ok=True)
@@ -53,7 +63,12 @@ def prepare_for_codechef_battle(problem_urls, comp_url):
             response = response.json()
 
             if not os.path.isfile(problem_folder_name + "/" + "problem.html"):
-                Path(problem_folder_name + "/" + "problem.html").touch()
+                html_str = get_java_script_code_for_problem(comp_url + "/problems/" + problem_url.split("/")[-1])
+
+                problem_html_file = problem_folder_name + "/" + "problem.html"
+
+                with open(problem_html_file, "w+") as outfile:
+                    outfile.write(html_str)
 
             tmplt_file_created = True
             if (not (os.getenv(constants.use_template) is None)) and (int(os.getenv(constants.use_template)) == 1):
@@ -95,3 +110,15 @@ def prepare_for_codechef_battle(problem_urls, comp_url):
                     outfile.write(output_str)
 
         problem_counter += 1
+
+
+def get_java_script_code_for_problem(problem_url):
+    return """
+    <html>
+        <body>
+            <script>
+                window.location.replace('{problem_url}');
+            </script>
+        </body>
+    </html>
+    """.format(problem_url=problem_url)
