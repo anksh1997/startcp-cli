@@ -27,7 +27,7 @@ def get_codechef_problem_urls(comp_url):
 
 
 def get_codechef_competition_id(comp_url):
-    codechef_validate_re = re.compile(r"^https://www.codechef.com/(\w+)(\?.*)?$")
+    codechef_validate_re = re.compile(constants.codechef_regex)
     search_result = re.search(codechef_validate_re, comp_url)
     try:
         return search_result.group(1)

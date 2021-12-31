@@ -62,7 +62,7 @@ def validate_url(comp_url):
     global platform_id
 
     # regex matching for codechef url
-    codechef_validate_re = re.compile(r"^https://www.codechef.com/(\w+)(\?.*)?$")
+    codechef_validate_re = re.compile(constants.codechef_regex)
     if(re.match(codechef_validate_re, comp_url)):
         platform_id = constants.codechef
         return True

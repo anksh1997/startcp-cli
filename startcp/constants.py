@@ -17,3 +17,7 @@ backup_lang_template_path = "BACKUP_LANG_TEMPLATE_PATH"
 # API CONFIGURATIONS
 codechef_contest_api_url = "https://www.codechef.com/api/contests/"
 # END
+
+# REGEX CONFIGURATIONS
+codechef_regex = r"^https://www.codechef.com/(\w+)(\?.*)?$"
+# END
