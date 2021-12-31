@@ -48,6 +48,7 @@ and our beloved
 
 
 #### Usage
+![Use Case](https://github.com/asprazz/startcp-cli/blob/develop/screenshots/1.png "Use Case")
 - After installing using pip or building from source, by using `startcp` on terminal you can trigger the execution for startcp-cli from anywhere.
 - Please enter URL of the competition to parse and generate the battlespace.
 - Battle space will auto generated in ${USER_HOME}/startcp/ (default path which is configurable see Configuration)
