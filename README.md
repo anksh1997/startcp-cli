@@ -4,10 +4,16 @@
 >    Use `pip install -U startcp-cli` or `pip install startcp-cli==x.y.z` x.y.z is the latest version
 >
 
-## Startcp-Cli
+---
+
+<p align="center">
+  <img width="600" src="https://github.com/asprazz/startcp-cli/blob/master/screenshots/logos/start_cp_2x.png">
+</p>
+
+---
 
 <P>
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A CLI application for generating battlespace in seconds for online coding competitions with features like custom template configuration, backup language support, auto input output files generation, etc. But, currently available for Codechef only.
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A CLI application for generating battlespace in seconds for online coding competitions with features like custom template configuration, backup language support, auto input output files generation, etc. But, currently available for Codechef and Codeforces (version 1.0.2).
 </p>
 
 <p>
