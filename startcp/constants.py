@@ -26,3 +26,7 @@ codechef_contest_api_url = "https://www.codechef.com/api/contests/"
 codechef_regex = r"^https://www.codechef.com/(\w+)(\?.*)?$"
 codeforces_regex = r"^https://www.codeforces.com/contest/(\w+)(\?.*)?$"
 # END
+
+# CONFIGURATION
+default_configuration = """IS_SETUP_DONE = 0\nPROJECT_PATH = /home/user_name \nUSE_TEMPLATE = 0\nMAIN_LANG_TEMPLATE_PATH = /home/user_name \nBACKUP_LANG_TEMPLATE_PATH = /home/user_name \nSEPERATE_FOLDER_STRUCTURE_FOR_DIFFERENT_SITES = 1\nCODECHEF_FOLDER_NAME = Codechef\nCODEFORCES_FOLDER_NAME = Codeforces\n"""
+# END

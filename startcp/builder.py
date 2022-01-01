@@ -13,6 +13,7 @@ except Exception:
 rangebi = printer.Rangebi()
 platform_id = None
 
+
 def perform_build(args):
     comp_url = ""
 
@@ -117,7 +118,7 @@ def generate_start_cp_config_file():
             )
         )
     else:
-        start_cp_configuration = """IS_SETUP_DONE = 0\nPROJECT_PATH = /home/user_name \nUSE_TEMPLATE = 0\nMAIN_LANG_TEMPLATE_PATH = /home/user_name \nBACKUP_LANG_TEMPLATE_PATH = /home/user_name \nSEPERATE_FOLDER_STRUCTURE_FOR_DIFFERENT_SITES = 1\nCODECHEF_FOLDER_NAME = Codechef\nCODEFORCES_FOLDER_NAME = Codeforces\n"""
+        start_cp_configuration = constants.default_configuration
         os.makedirs(constants.startcp_default_folder, exist_ok=True)
         with open(str(constants.startcp_config_file), "w") as f:
             f.write(start_cp_configuration)
