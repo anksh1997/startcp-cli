@@ -1,15 +1,13 @@
 import os
-from pathlib import Path
-import shutil
 import re
 import requests
 
 from bs4 import BeautifulSoup
 
 try:
-    import printer, constants
+    import printer, constants, utilities
 except Exception:
-    from startcp import printer, constants
+    from startcp import printer, constants, utilities
 
 
 rangebi = printer.Rangebi()
@@ -57,38 +55,12 @@ def prepare_for_codeforces_battle(problem_urls, comp_url):
 
         if (problem_response.status_code == 200):
 
-            if not os.path.isfile(problem_folder_name + "/" + "problem.html"):
-                html_str = get_java_script_code_for_problem(problem_url)
+            utilities.create_problem_html_file(
+                problem_folder_name + "/" + "problem.html",
+                comp_url + "/problems/" + problem_url.split("/")[-1]
+            )
 
-                problem_html_file = problem_folder_name + "/" + "problem.html"
-
-                with open(problem_html_file, "w+") as outfile:
-                    outfile.write(html_str)
-
-            tmplt_file_created = True
-            if (not (os.getenv(constants.use_template) is None)) and (int(os.getenv(constants.use_template)) == 1):
-                try:
-                    if not (os.getenv(constants.main_lang_template_path) is None):
-                        if Path(os.getenv(constants.main_lang_template_path)).is_file():
-                            shutil.copy(os.getenv(constants.main_lang_template_path), problem_folder_name + "/")
-                            if not (os.getenv(constants.backup_lang_template_path) is None):
-                                if Path(os.getenv(constants.backup_lang_template_path)).is_file():
-                                    shutil.copy(os.getenv(constants.backup_lang_template_path), problem_folder_name + "/")
-                        else:
-                            tmplt_file_created = False
-                    else:
-                        tmplt_file_created = False
-                except Exception:
-                    tmplt_file_created = False
-            else:
-                tmplt_file_created = False
-
-            if not tmplt_file_created:
-                if not os.path.isfile(problem_folder_name + "/" + "sol.py"):
-                    Path(problem_folder_name + "/" + "sol.py").touch()
-
-                if not os.path.isfile(problem_folder_name + "/" + "sol.cpp"):
-                    Path(problem_folder_name + "/" + "sol.cpp").touch()
+            utilities.create_solution_prog_files(problem_folder_name)
 
             try:
                 problems_soup = BeautifulSoup(problem_response.content, 'html.parser')
@@ -97,26 +69,8 @@ def prepare_for_codeforces_battle(problem_urls, comp_url):
                 input_str = problems_soup.find_all("div", {"class": "input"})[0].find_all("pre")[0].text
                 output_str = problems_soup.find_all("div", {"class": "output"})[0].find_all("pre")[0].text
 
-                input_filename = problem_folder_name + "/" + "in" + str(id) + ".txt"
-                output_filename = problem_folder_name + "/" + "out" + str(id) + ".txt"
-
-                with open(input_filename, "w+") as outfile:
-                    outfile.write(input_str)
-
-                with open(output_filename, "w+") as outfile:
-                    outfile.write(output_str)
+                utilities.create_input_output_files(problem_folder_name, input_str, output_str, id)
 
             except Exception as e:
                 print(e)
                 continue
-
-def get_java_script_code_for_problem(problem_url):
-    return """
-    <html>
-        <body>
-            <script>
-                window.location.replace('{problem_url}');
-            </script>
-        </body>
-    </html>
-    """.format(problem_url=problem_url)

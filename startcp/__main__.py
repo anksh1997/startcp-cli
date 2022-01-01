@@ -1,11 +1,12 @@
 #! /usr/bin/env python3
 
 import argparse
+
 try:
-    import functions, printer
+    import functions
+    import printer
 except Exception:
     from startcp import functions, printer
-
 
 
 def main():
