@@ -40,5 +40,20 @@ def run(args):
     builder.perform_build(args)
 
 
+def generate_start_cp_config_file():
+
+    if constants.startcp_config_file.is_file():
+        print(
+            rangebi.get_in_success(
+                "Hey! Config file already generated."
+            )
+        )
+    else:
+        start_cp_configuration = constants.default_configuration
+        os.makedirs(constants.startcp_default_folder, exist_ok=True)
+        with open(str(constants.startcp_config_file), "w") as f:
+            f.write(start_cp_configuration)
+
+
 def print_version_info():
-    print(f"startcp-cli current version: {version.string()}")
+    print("startcp-cli current version:{version_string}".format(version_string=version.string()))

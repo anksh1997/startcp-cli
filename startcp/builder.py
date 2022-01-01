@@ -19,7 +19,6 @@ def perform_build(args):
 
     if args.url:
         comp_url = args.url.lower()
-        builder.perform_build()
     else:
         printer.new_lines()
         print(
@@ -48,13 +47,13 @@ def validate_url(comp_url):
 
     # regex matching for codechef url
     regex_validator = re.compile(constants.codechef_regex)
-    if(re.match(regex_validator, comp_url)):
+    if re.match(regex_validator, comp_url):
         platform_id = constants.codechef
         return True
 
     # regex matching for codeforces url
     regex_validator = re.compile(constants.codeforces_regex)
-    if(re.match(regex_validator, comp_url)):
+    if re.match(regex_validator, comp_url):
         platform_id = constants.codeforces
         return True
 
@@ -107,18 +106,3 @@ def move_pointer():
         # lets go home by default
         os.makedirs(constants.startcp_default_folder, exist_ok=True)
         os.chdir(constants.startcp_default_folder)
-
-
-def generate_start_cp_config_file():
-
-    if constants.startcp_config_file.is_file():
-        print(
-            rangebi.get_in_success(
-                "Hey! Config file already generated."
-            )
-        )
-    else:
-        start_cp_configuration = constants.default_configuration
-        os.makedirs(constants.startcp_default_folder, exist_ok=True)
-        with open(str(constants.startcp_config_file), "w") as f:
-            f.write(start_cp_configuration)
