@@ -5,7 +5,9 @@ import requests
 from bs4 import BeautifulSoup
 
 try:
-    import printer, constants, utilities
+    import printer
+    import constants
+    import utilities
 except Exception:
     from startcp import printer, constants, utilities
 
@@ -35,7 +37,8 @@ def prepare_for_codeforces_battle(problem_urls, comp_url):
 
     if (not (os.getenv(constants.is_setup_done) is None)) and (int(os.getenv(constants.is_setup_done)) == 1):
         if (not (os.getenv(constants.codeforces_folder_name) is None)) and (len(os.getenv(constants.codeforces_folder_name)) > 0):
-            os.makedirs(os.getenv(constants.codeforces_folder_name), exist_ok=True)
+            os.makedirs(
+                os.getenv(constants.codeforces_folder_name), exist_ok=True)
             os.chdir(os.getenv(constants.codeforces_folder_name))
         else:
             os.makedirs(constants.codeforces, exist_ok=True)
@@ -45,7 +48,6 @@ def prepare_for_codeforces_battle(problem_urls, comp_url):
 
     os.makedirs(codeforces_comp_id, exist_ok=True)
     os.chdir(codeforces_comp_id)
-
 
     for problem_url in problem_urls:
         problem_folder_name = problem_url.split("/")[-1]
@@ -63,13 +65,17 @@ def prepare_for_codeforces_battle(problem_urls, comp_url):
             utilities.create_solution_prog_files(problem_folder_name)
 
             try:
-                problems_soup = BeautifulSoup(problem_response.content, 'html.parser')
+                problems_soup = BeautifulSoup(
+                    problem_response.content, 'html.parser')
 
                 id = 1
-                input_str = problems_soup.find_all("div", {"class": "input"})[0].find_all("pre")[0].text
-                output_str = problems_soup.find_all("div", {"class": "output"})[0].find_all("pre")[0].text
+                input_str = problems_soup.find_all("div", {"class": "input"})[
+                    0].find_all("pre")[0].text
+                output_str = problems_soup.find_all("div", {"class": "output"})[
+                    0].find_all("pre")[0].text
 
-                utilities.create_input_output_files(problem_folder_name, input_str, output_str, id)
+                utilities.create_input_output_files(
+                    problem_folder_name, input_str, output_str, id)
 
             except Exception as e:
                 print(e)

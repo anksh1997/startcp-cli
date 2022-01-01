@@ -22,10 +22,12 @@ def create_solution_prog_files(problem_folder_name):
         try:
             if not (os.getenv(constants.main_lang_template_path) is None):
                 if Path(os.getenv(constants.main_lang_template_path)).is_file():
-                    shutil.copy(os.getenv(constants.main_lang_template_path), problem_folder_name + "/")
+                    shutil.copy(
+                        os.getenv(constants.main_lang_template_path), problem_folder_name + "/")
                     if not (os.getenv(constants.backup_lang_template_path) is None):
                         if Path(os.getenv(constants.backup_lang_template_path)).is_file():
-                            shutil.copy(os.getenv(constants.backup_lang_template_path), problem_folder_name + "/")
+                            shutil.copy(
+                                os.getenv(constants.backup_lang_template_path), problem_folder_name + "/")
                 else:
                     tmplt_file_created = False
             else:
