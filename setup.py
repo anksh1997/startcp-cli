@@ -13,6 +13,8 @@ assert "." in startcp_version
 assert os.path.isfile("startcp/version.py")
 with open("startcp/VERSION", "w", encoding="utf-8") as fh:
     fh.write(f"{startcp_version}\n")
+with open("VERSION", "w", encoding="utf-8") as fh:
+    fh.write(f"{startcp_version}\n")
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
@@ -42,6 +44,7 @@ setuptools.setup(
         'colorama',
         'python-dotenv',
         'Rangebi',
-        'beautifulsoup4==4.10.0'
+        'beautifulsoup4==4.10.0',
+        'halo==0.0.31'
     ],
 )
