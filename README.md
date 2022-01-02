@@ -29,6 +29,9 @@
 - [`argparse`](https://pypi.org/project/argparse/)
 and our beloved
 - [`colorama`](https://pypi.org/project/colorama/)
+- [`bs4`](https://pypi.org/project/beautifulsoup4/)
+- [`halo`](https://pypi.org/project/halo/)
+
 - Thanks to all :pray:
 
 

@@ -113,27 +113,38 @@ def print_menu():
     get_help_option_text(
         "cp $competition_url"
     )
-
     print("\t\t-- to build battlespace for the competition")
-    print("")
+    new_lines()
     print("\t\t-- eg. cp https://www.codechef.com/NOV21B, cp codechef.com/NOV21B, cp codechef/NOV21b ")
     print("\t\t-- eg. cp https://www.codeforces.com/1616, cp codeforces.com/contest/1616, cp codeforces/1616 ")
 
-    print("")
+    new_lines()
 
     get_help_option_text(
         "g or generate"
     )
+    print("\t\t-- to toggle generatition of configuration file")
 
-    print("\t\t-- to generate configuration file")
+    get_help_option_text(
+        "v or vw or vc or viewconfig"
+    )
+    print("\t\t-- to toggle view of configuration file")
 
-    print("")
+
+    new_lines()
 
     get_help_option_text(
         "h or help"
     )
-
     print("\t\t-- to print this help")
+
+    new_lines()
+
+    get_help_option_text(
+        "q or e or exit or quit"
+    )
+    print("\t\t-- exit from the program")
+
 
 
 def get_help_option_text(option_text):
