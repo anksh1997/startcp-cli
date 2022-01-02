@@ -94,17 +94,8 @@ def print_start_cp_credits():
 def print_menu():
     rangebi = Rangebi()
 
-    print(
-        rangebi.get_in_warning(
-            "(StartCP) $"
-        ),
-        end=" "
-    )
-
-    print(
-        rangebi.get_in_info(
-            "cp $competition_url"
-        )
+    get_help_option_text(
+        "cp $competition_url"
     )
 
     print("\t\t-- to build battlespace for the competition")
@@ -114,23 +105,24 @@ def print_menu():
 
     print("")
 
-    print(
-        rangebi.get_in_warning(
-            "(StartCP) $"
-        ),
-        end=" "
+    get_help_option_text(
+        "g or generate"
     )
 
-    print(
-        rangebi.get_in_info(
-            "g or generate"
-        )
-    )
 
     print("\t\t-- to generate configuration file")
 
     print("")
 
+    get_help_option_text(
+        "h or help"
+    )
+
+    print("\t\t-- to print this help")
+
+
+def get_help_option_text(option_text):
+    rangebi = Rangebi()
     print(
         rangebi.get_in_warning(
             "(StartCP) $"
@@ -140,11 +132,9 @@ def print_menu():
 
     print(
         rangebi.get_in_info(
-            "h or help"
+           option_text
         )
     )
-
-    print("\t\t-- to print this help")
 
 
 def print_header():
