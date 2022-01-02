@@ -8,11 +8,13 @@ try:
     import printer
     import constants
     import utilities
+    import logger
 except Exception:
-    from startcp import printer, constants, utilities
+    from startcp import printer, constants, utilities, logger
 
 
 rangebi = printer.Rangebi()
+logger = logger.Logger()
 
 
 def get_codeforces_problem_urls(comp_url):
@@ -21,7 +23,8 @@ def get_codeforces_problem_urls(comp_url):
     codeforces_comp_id = utilities.get_competition_id_from_url(
         comp_url, constants.codeforces_regex)
 
-    problem_site = requests.get(constants.codeforces_base_uri + codeforces_comp_id)
+    problem_site = requests.get(
+        constants.codeforces_base_uri + codeforces_comp_id)
 
     if (problem_site.status_code == 200):
         problems_soup = BeautifulSoup(problem_site.content, 'html.parser')
@@ -44,23 +47,27 @@ def prepare_for_codeforces_battle(problem_urls, comp_url):
                 os.makedirs(
                     os.getenv(constants.codeforces_folder_name), exist_ok=True)
                 os.chdir(os.getenv(constants.codeforces_folder_name))
-                logger.info("Making if not exists and changing directory to" + os.getenv(constants.codeforces_folder_name))
+                logger.info("Making if not exists and changing directory to: " +
+                            os.getenv(constants.codeforces_folder_name))
             else:
                 os.makedirs(constants.codeforces, exist_ok=True)
                 os.chdir(constants.codeforces)
-                logger.info("Making if not exists and changing directory to" + constants.codeforces)
+                logger.info(
+                    "Making if not exists and changing directory to: " + constants.codeforces)
 
         codeforces_comp_id = utilities.get_competition_id_from_url(
             comp_url, constants.codeforces_regex)
 
         os.makedirs(codeforces_comp_id, exist_ok=True)
         os.chdir(codeforces_comp_id)
-        logger.info("Making if not exists and changing directory to" + codeforces_comp_id)
+        logger.info(
+            "Making if not exists and changing directory to: " + codeforces_comp_id)
 
         for problem_url in problem_urls:
             problem_folder_name = problem_url.split("/")[-1]
             os.makedirs(problem_folder_name, exist_ok=True)
-            logger.info("Making if not exists and changing directory to" + problem_folder_name)
+            logger.info(
+                "Making if not exists and changing directory to: " + problem_folder_name)
 
             problem_response = requests.get(problem_url)
 

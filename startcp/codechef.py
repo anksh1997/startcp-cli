@@ -5,11 +5,13 @@ try:
     import printer
     import constants
     import utilities
+    import logger
 except Exception:
-    from startcp import printer, constants, utilities
+    from startcp import printer, constants, utilities, logger
 
 
 rangebi = printer.Rangebi()
+logger = logger.Logger()
 
 
 def get_codechef_problem_urls(comp_url):
@@ -38,25 +40,25 @@ def prepare_for_codechef_battle(problem_urls, comp_url):
             os.makedirs(os.getenv(constants.codechef_folder_name),
                         exist_ok=True)
             os.chdir(os.getenv(constants.codechef_folder_name))
-            logger.info("Making if not exists and changing directory to" + constants.codechef_folder_name)
+            logger.info("Making if not exists and changing directory to: " + os.getenv(constants.codechef_folder_name))
         else:
             os.makedirs(constants.codechef, exist_ok=True)
             os.chdir(constants.codechef)
-            logger.info("Making if not exists and changing directory to" + constants.codechef)
+            logger.info("Making if not exists and changing directory to: " + constants.codechef)
 
         codechef_comp_id = utilities.get_competition_id_from_url(
             comp_url, constants.codechef_regex)
 
         os.makedirs(codechef_comp_id, exist_ok=True)
         os.chdir(codechef_comp_id)
-        logger.info("Making if not exists and changing directory to" + codechef_comp_id)
+        logger.info("Making if not exists and changing directory to: " + codechef_comp_id)
 
         problem_counter = 1
         for problem_url in problem_urls:
             problem_folder_name = str(problem_counter) + \
                 "_" + problem_url.split("/")[-1]
             os.makedirs(problem_folder_name, exist_ok=True)
-            logger.info("Making if not exists and changing directory to" + problem_folder_name)
+            logger.info("Making if not exists and changing directory to: " + problem_folder_name)
 
             response = requests.get(problem_url)
 

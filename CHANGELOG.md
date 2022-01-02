@@ -11,9 +11,9 @@ Todos:
     - [x] codechef regex fixes
     - [x] fix #6 linting issues
     - [x] code duplicacy fixed
-    - [ ] UI fixes and new things on UI like logo, loaders, etc
+    - [x] UI fixes and new things on UI like logo, loaders, etc
+    - [x] logging of every file transaction to ensure trust and reliablity
     - [ ] customisation in generation of configuration file with more options
-    - [ ] logging of every file transaction to ensure trust and reliablity
 
 
 ## Released

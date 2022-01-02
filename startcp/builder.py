@@ -27,7 +27,7 @@ def perform_build(comp_url):
             )
         )
         printer.new_lines()
-        logger.info("Error occured while validating url. Please try again! URL:" + comp_url)
+        logger.info("Error occured while validating url. Please try again! URL: " + comp_url)
         return False
     else:
         rangebi.set_spinner()
@@ -101,16 +101,16 @@ def move_pointer():
         if (not (os.getenv(constants.is_setup_done) is None)) and (int(os.getenv(constants.is_setup_done)) == 1):
             if not (os.getenv(constants.project_path) is None):
                 os.chdir(os.getenv(constants.project_path))
-                logger.info("Changing directory to" + os.getenv(constants.project_path))
+                logger.info("Changing directory to: " + os.getenv(constants.project_path))
             else:
                 os.makedirs(constants.startcp_default_folder, exist_ok=True)
                 os.chdir(constants.startcp_default_folder)
-                logger.info("Making if not exists and changing directory to" + constants.startcp_default_folder)
+                logger.info("Making if not exists and changing directory to: " + constants.startcp_default_folder)
         else:
             # lets go home by default
             os.makedirs(constants.startcp_default_folder, exist_ok=True)
             os.chdir(constants.startcp_default_folder)
-            logger.info("Making if not exists and changing directory to" + constants.startcp_default_folder)
+            logger.info("Making if not exists and changing directory to: " + constants.startcp_default_folder)
         return True
     except Exception:
         return False
