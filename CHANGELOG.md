@@ -1,15 +1,18 @@
 
 ## Upcomming Release
 
-- version 1.0.3
-    - [ ] codechef regex fixes
-    - [ ] fix #6 linting issues
-    - [ ] UI fixes and new things on UI
+Todos:
     - [ ] competition scanner from CLI
     - [ ] small judge on the cli
     - [ ] scheduling tracking and notifying (email, sms, chrome notification using extension, etc)
+
+
+- version 1.0.3
+    - [x] codechef regex fixes
+    - [x] fix #6 linting issues
+    - [x] UI fixes and new things on UI
     - [x] code duplicacy fixed
-    - [ ] customisation in generation of configuration file with more options
+    - [x] customisation in generation of configuration file with more options
 
 
 ## Released

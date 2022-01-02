@@ -30,6 +30,8 @@ except Exception:
 
 def run(args):
 
+    printer.print_header()
+
     if args.generate:
         generate_start_cp_config_file()
         return
@@ -37,7 +39,41 @@ def run(args):
         print_version_info()
         return
 
-    builder.perform_build(args)
+    operate(args)
+
+
+def operate(args):
+    comp_url = ""
+
+    if args.url:
+        comp_url = args.url.lower()
+    else:
+        printer.new_lines(1)
+        printer.print_menu()
+        printer.new_lines(1)
+        while (True):
+            print(
+                rangebi.get_in_warning(
+                    "(StartCP) $"
+                ),
+                end=" "
+            )
+            choices = input().split(" ")
+
+            if choices[0].lower() in ["h", "hlp", "help", "hl"]:
+                printer.print_menu()
+                print("")
+            elif choices[0].lower() in ["e", "exit", "ext", "q", "qt", "quit"]:
+                break
+            elif choices[0].lower() in ["c", "clr", "clear", "clrscr"]:
+                print("clear screen")
+            elif choices[0].lower() in ["cp", "comp", "build", "b"]:
+                if len(choices) == 1:
+                    print(
+                        rangebi.get_in_danger("Please give url as second paramter. eg. cp codechef/COMP_ID")
+                    )
+                    continue
+                builder.perform_build(choices[1])
 
 
 def generate_start_cp_config_file():

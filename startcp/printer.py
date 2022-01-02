@@ -44,6 +44,24 @@ def get_tab(count=1):
         print("\t")
 
 
+def get_dashed_lines(count=1):
+    rangebi = Rangebi()
+    for i in range(count):
+        if i == count - 1 and count != 1:
+            print(
+                rangebi.get_in_warning(
+                    ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
+                ),
+                end=""
+            )
+        else:
+            print(
+                rangebi.get_in_warning(
+                    ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
+                ),
+            )
+
+
 def print_start_cp_credits():
     rangebi = Rangebi()
     print(
@@ -71,3 +89,81 @@ def print_start_cp_credits():
         )
     )
     new_lines()
+
+
+def print_menu():
+    rangebi = Rangebi()
+
+    print(
+        rangebi.get_in_warning(
+            "(StartCP) $"
+        ),
+        end=" "
+    )
+
+    print(
+        rangebi.get_in_info(
+            "cp $competition_url"
+        )
+    )
+
+    print("\t\t-- to build battlespace for the competition")
+    print("")
+    print("\t\t-- eg. cp https://www.codechef.com/NOV21B, cp codechef.com/NOV21B, cp codechef/NOV21b ")
+    print("\t\t-- eg. cp https://www.codeforces.com/1616, cp codeforces.com/contest/1616, cp codeforces/1616 ")
+
+    print("")
+
+    print(
+        rangebi.get_in_warning(
+            "(StartCP) $"
+        ),
+        end=" "
+    )
+
+    print(
+        rangebi.get_in_info(
+            "g or generate"
+        )
+    )
+
+    print("\t\t-- to generate configuration file")
+
+    print("")
+
+    print(
+        rangebi.get_in_warning(
+            "(StartCP) $"
+        ),
+        end=" "
+    )
+
+    print(
+        rangebi.get_in_info(
+            "h or help"
+        )
+    )
+
+    print("\t\t-- to print this help")
+
+
+def print_header():
+    rangebi = Rangebi()
+
+    logo = """
+::                                                                                      ::
+::            ____ _____  _    ____ _____ ____ ____        ____ _     ___               ::
+::           / ___|_   _|/ \  |  _ \_   _/ ___|  _ \      / ___| |   |_ _|              ::
+::           \___ \ | | / _ \ | |_) || || |   | |_) |____| |   | |    | |               ::
+::            ___) || |/ ___ \|  _ < | || |___|  __/_____| |___| |___ | |               ::
+::           |____/ |_/_/   \_\_| \_\|_| \____|_|         \____|_____|___|              ::
+::                                                                                      ::
+    """
+    print("")
+    print(
+        rangebi.get_in_bold(
+            rangebi.get_in_success(
+                logo
+            )
+        )
+    )

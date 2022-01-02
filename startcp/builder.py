@@ -14,22 +14,7 @@ rangebi = printer.Rangebi()
 platform_id = None
 
 
-def perform_build(args):
-    comp_url = ""
-
-    if args.url:
-        comp_url = args.url.lower()
-    else:
-        printer.new_lines()
-        print(
-            rangebi.get_in_success(
-                "Enter Competition URL:"
-            ),
-            end=" "
-        )
-        comp_url = input()
-        printer.new_lines()
-
+def perform_build(comp_url):
     if not validate_url(comp_url):
         print(
             rangebi.get_in_danger(
