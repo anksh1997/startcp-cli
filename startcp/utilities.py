@@ -1,4 +1,6 @@
 import os
+import re
+
 from pathlib import Path
 import shutil
 
@@ -8,10 +10,16 @@ except Exception:
     from startcp import constants
 
 
+def get_competition_id_from_url(target_url, target_regex):
+    try:
+        return (re.search(re.compile(target_regex), target_url)).group(1)
+    except:
+        return None
+
+
 def create_problem_html_file(problem_file_name, problem_url):
     if not os.path.isfile(problem_file_name):
         html_str = get_java_script_code_for_problem(problem_url)
-
         with open(problem_file_name, "w+") as outfile:
             outfile.write(html_str)
 

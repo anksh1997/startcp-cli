@@ -22,9 +22,16 @@ codeforces_folder_name = "CODEFORCES_FOLDER_NAME"
 codechef_contest_api_url = "https://www.codechef.com/api/contests/"
 # END
 
+# BASE URIs
+codechef_base_uri = "https://www.codechef.com/"
+codeforces_base_uri = "https://www.codeforces.com/contest/"
+# END
+
 # REGEX CONFIGURATIONS
-codechef_regex = r"^https://www.codechef.com/(\w+)(\?.*)?$"
-codeforces_regex = r"^https://www.codeforces.com/contest/(\w+)(\?.*)?$"
+# old codechef_regex = r"^https://www.codechef.com/(\w+)(\?.*)?$"
+# old codeforces_regex = r"^https://www.codeforces.com/contest/(\w+)(\?.*)?$"
+codechef_regex = r"^(?:http(?:s)?://)?(?:www.)?codechef(?:.com)?/(\w+)(\?.*)?$"
+codeforces_regex = r"^(?:http(?:s)?://)?(?:www.)?codeforces(?:.com)?/(?:contest/)?(\w+)(\?.*)?$"
 # END
 
 # CONFIGURATION

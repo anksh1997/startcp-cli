@@ -8,6 +8,8 @@
     - [ ] competition scanner from CLI
     - [ ] small judge on the cli
     - [ ] scheduling tracking and notifying (email, sms, chrome notification using extension, etc)
+    - [x] code duplicacy fixed
+    - [ ] customisation in generation of configuration file with more options
 
 
 ## Released

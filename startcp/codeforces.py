@@ -18,7 +18,10 @@ rangebi = printer.Rangebi()
 def get_codeforces_problem_urls(comp_url):
     problem_urls = []
 
-    problem_site = requests.get(comp_url)
+    codeforces_comp_id = utilities.get_competition_id_from_url(
+        comp_url, constants.codeforces_regex)
+
+    problem_site = requests.get(constants.codeforces_base_uri + codeforces_comp_id)
 
     if (problem_site.status_code == 200):
         problems_soup = BeautifulSoup(problem_site.content, 'html.parser')
@@ -27,7 +30,8 @@ def get_codeforces_problem_urls(comp_url):
         if len(problems_table) == 1:
             problem_count = len(problems_table[0].find_all("tr")) - 1
             for p_i in range(problem_count):
-                problem_url = comp_url + '/problem/' + chr(65 + p_i)
+                problem_url = constants.codeforces_base_uri + \
+                    codeforces_comp_id + '/problem/' + chr(65 + p_i)
                 problem_urls.append(problem_url)
 
     return problem_urls
@@ -44,7 +48,8 @@ def prepare_for_codeforces_battle(problem_urls, comp_url):
             os.makedirs(constants.codeforces, exist_ok=True)
             os.chdir(constants.codeforces)
 
-    codeforces_comp_id = comp_url.split("/")[-1]
+    codeforces_comp_id = utilities.get_competition_id_from_url(
+        comp_url, constants.codeforces_regex)
 
     os.makedirs(codeforces_comp_id, exist_ok=True)
     os.chdir(codeforces_comp_id)
@@ -59,7 +64,7 @@ def prepare_for_codeforces_battle(problem_urls, comp_url):
 
             utilities.create_problem_html_file(
                 problem_folder_name + "/" + "problem.html",
-                comp_url + "/problems/" + problem_url.split("/")[-1]
+                comp_url + "/problem/" + problem_url.split("/")[-1]
             )
 
             utilities.create_solution_prog_files(problem_folder_name)
