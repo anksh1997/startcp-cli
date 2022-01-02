@@ -6,11 +6,16 @@ try:
     import constants
     import codechef
     import codeforces
+    import logger
+
 except Exception:
-    from startcp import printer, constants, codechef, codeforces
+    from startcp import printer, constants, codechef, codeforces, logger
+
 
 
 rangebi = printer.Rangebi()
+logger = logger.Logger()
+
 platform_id = None
 
 
@@ -18,13 +23,19 @@ def perform_build(comp_url):
     if not validate_url(comp_url):
         print(
             rangebi.get_in_danger(
-                "URL is not valid. Please try again!"
+                "Error orccured while validating url. Please try again!"
             )
         )
         printer.new_lines()
-        return
+        logger.info("Error occured while validating url. Please try again! URL:" + comp_url)
+        return False
     else:
-        perform_operations_on_url(comp_url)
+        rangebi.set_spinner()
+        rangebi.start_spinner()
+        status = perform_operations_on_url(comp_url)
+        rangebi.stop_spinner()
+        rangebi.clear_spinner()
+        return status
 
 
 def validate_url(comp_url):
@@ -55,9 +66,9 @@ def perform_operations_on_url(comp_url):
                 "Error parsing the URL!"
             )
         )
-        printer.new_lines()
+        return False
     else:
-        prepare_battlezone(params, comp_url)
+        return prepare_battlezone(params, comp_url)
 
 
 def parse_url(comp_url):
@@ -72,22 +83,34 @@ def parse_url(comp_url):
 
 
 def prepare_battlezone(problem_urls, comp_url):
-    move_pointer()
+    if not move_pointer():
+        return False
+
+    result = False
 
     if platform_id == constants.codechef:
-        codechef.prepare_for_codechef_battle(problem_urls, comp_url)
+        result = codechef.prepare_for_codechef_battle(problem_urls, comp_url)
     elif platform_id == constants.codeforces:
-        codeforces.prepare_for_codeforces_battle(problem_urls, comp_url)
+        result = codeforces.prepare_for_codeforces_battle(problem_urls, comp_url)
+
+    return result
 
 
 def move_pointer():
-    if (not (os.getenv(constants.is_setup_done) is None)) and (int(os.getenv(constants.is_setup_done)) == 1):
-        if not (os.getenv(constants.project_path) is None):
-            os.chdir(os.getenv(constants.project_path))
+    try:
+        if (not (os.getenv(constants.is_setup_done) is None)) and (int(os.getenv(constants.is_setup_done)) == 1):
+            if not (os.getenv(constants.project_path) is None):
+                os.chdir(os.getenv(constants.project_path))
+                logger.info("Changing directory to" + os.getenv(constants.project_path))
+            else:
+                os.makedirs(constants.startcp_default_folder, exist_ok=True)
+                os.chdir(constants.startcp_default_folder)
+                logger.info("Making if not exists and changing directory to" + constants.startcp_default_folder)
         else:
+            # lets go home by default
             os.makedirs(constants.startcp_default_folder, exist_ok=True)
             os.chdir(constants.startcp_default_folder)
-    else:
-        # lets go home by default
-        os.makedirs(constants.startcp_default_folder, exist_ok=True)
-        os.chdir(constants.startcp_default_folder)
+            logger.info("Making if not exists and changing directory to" + constants.startcp_default_folder)
+        return True
+    except Exception:
+        return False

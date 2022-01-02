@@ -2,6 +2,8 @@ import json
 import requests
 import re
 import os
+import datetime
+
 from dotenv import load_dotenv, find_dotenv
 
 try:
@@ -9,11 +11,14 @@ try:
     import constants
     import builder
     import version
+    import logger
 except Exception:
-    from startcp import printer, constants, builder, version
+    from startcp import printer, constants, builder, version, logger
 
 
 rangebi = printer.Rangebi()
+logger = logger.Logger()
+
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -73,7 +78,12 @@ def operate(args):
                         rangebi.get_in_danger("Please give url as second paramter. eg. cp codechef/COMP_ID")
                     )
                     continue
-                builder.perform_build(choices[1])
+                if builder.perform_build(choices[1].strip()):
+                    print(
+                        rangebi.get_in_success(
+                            "Successfully prepared for code battle. Good luck!"
+                        )
+                    )
 
 
 def generate_start_cp_config_file():
@@ -86,9 +96,14 @@ def generate_start_cp_config_file():
         )
     else:
         start_cp_configuration = constants.default_configuration
+
         os.makedirs(constants.startcp_default_folder, exist_ok=True)
+
+        logger.info("Generating default config folder: " + constants.startcp_default_folder + " if not exists")
+
         with open(str(constants.startcp_config_file), "w") as f:
             f.write(start_cp_configuration)
+            logger.info("Generating default config file: " + constants.startcp_config_file + " if not exists")
 
 
 def print_version_info():

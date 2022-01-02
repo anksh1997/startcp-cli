@@ -10,9 +10,10 @@ Todos:
 - version 1.0.3
     - [x] codechef regex fixes
     - [x] fix #6 linting issues
-    - [x] UI fixes and new things on UI
     - [x] code duplicacy fixed
-    - [x] customisation in generation of configuration file with more options
+    - [ ] UI fixes and new things on UI like logo, loaders, etc
+    - [ ] customisation in generation of configuration file with more options
+    - [ ] logging of every file transaction to ensure trust and reliablity
 
 
 ## Released

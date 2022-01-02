@@ -3,6 +3,7 @@ from pathlib import Path
 # STARTCP CONFIGURATIONS
 startcp_default_folder = str(Path.home()) + "/" + "start_cp"
 startcp_config_file = Path(startcp_default_folder + "/" + 'startcp_config.env')
+startcp_log_file = Path(startcp_default_folder + "/" + 'startcp_transactions.log')
 # END
 
 # CONSTANTS CONFIGURATIONS

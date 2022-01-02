@@ -44,6 +44,7 @@ setuptools.setup(
         'colorama',
         'python-dotenv',
         'Rangebi',
-        'beautifulsoup4==4.10.0'
+        'beautifulsoup4==4.10.0',
+        'halo==0.0.31'
     ],
 )

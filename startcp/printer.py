@@ -1,3 +1,5 @@
+from halo import Halo
+
 import os
 import platform
 import colorama
@@ -18,6 +20,8 @@ class Rangebi:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+    spinner = None
+
     def get_in_danger(self, message):
         return Rangebi.FAIL + str(message) + Rangebi.ENDC
 
@@ -33,10 +37,22 @@ class Rangebi:
     def get_in_info(self, message):
         return Rangebi.OKBLUE + str(message) + Rangebi.ENDC
 
+    def set_spinner(self):
+        self.spinner = Halo(text='preparing battlespace...', spinner='dots')
+
+    def start_spinner(self):
+        self.spinner.start()
+
+    def stop_spinner(self):
+        self.spinner.stop()
+
+    def clear_spinner(self):
+        self.spinner = None
+
 
 def new_lines(count=1):
     for i in range(count):
-        print("\n")
+        print("")
 
 
 def get_tab(count=1):
@@ -109,7 +125,6 @@ def print_menu():
         "g or generate"
     )
 
-
     print("\t\t-- to generate configuration file")
 
     print("")
@@ -132,7 +147,7 @@ def get_help_option_text(option_text):
 
     print(
         rangebi.get_in_info(
-           option_text
+            option_text
         )
     )
 

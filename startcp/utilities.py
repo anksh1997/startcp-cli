@@ -22,6 +22,7 @@ def create_problem_html_file(problem_file_name, problem_url):
         html_str = get_java_script_code_for_problem(problem_url)
         with open(problem_file_name, "w+") as outfile:
             outfile.write(html_str)
+            logger.info("Making if not exists and writing " + html_str + " to" + problem_file_name)
 
 
 def create_solution_prog_files(problem_folder_name):
@@ -32,10 +33,14 @@ def create_solution_prog_files(problem_folder_name):
                 if Path(os.getenv(constants.main_lang_template_path)).is_file():
                     shutil.copy(
                         os.getenv(constants.main_lang_template_path), problem_folder_name + "/")
+                    logger.info("Copying " + os.getenv(constants.main_lang_template_path)
+                        + " to" + problem_folder_name)
                     if not (os.getenv(constants.backup_lang_template_path) is None):
                         if Path(os.getenv(constants.backup_lang_template_path)).is_file():
                             shutil.copy(
                                 os.getenv(constants.backup_lang_template_path), problem_folder_name + "/")
+                            logger.info("Copying " + os.getenv(constants.backup_lang_template_path)
+                                + " to" + problem_folder_name)
                 else:
                     tmplt_file_created = False
             else:
@@ -48,9 +53,10 @@ def create_solution_prog_files(problem_folder_name):
     if not tmplt_file_created:
         if not os.path.isfile(problem_folder_name + "/" + "sol.py"):
             Path(problem_folder_name + "/" + "sol.py").touch()
-
+            logger.info("Making if not exists and writing to" + problem_folder_name + "/" + "sol.py")
         if not os.path.isfile(problem_folder_name + "/" + "sol.cpp"):
             Path(problem_folder_name + "/" + "sol.cpp").touch()
+            logger.info("Making if not exists and writing to" + problem_folder_name + "/" + "sol.cpp")
 
 
 def create_input_output_files(problem_folder_name, input_str, output_str, file_id):
@@ -60,8 +66,10 @@ def create_input_output_files(problem_folder_name, input_str, output_str, file_i
 
     with open(input_filename, "w+") as outfile:
         outfile.write(input_str)
+        logger.info("Making if not exists and writing " + input_str + " to" + input_filename)
     with open(output_filename, "w+") as outfile:
         outfile.write(output_str)
+        logger.info("Making if not exists and writing " + output_str + " to" + output_filename)
 
 
 def get_java_script_code_for_problem(problem_url):
