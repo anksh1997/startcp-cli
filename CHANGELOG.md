@@ -6,6 +6,7 @@ Todos:
     - [ ] small judge on the cli
     - [ ] scheduling tracking and notifying (email, sms, chrome notification using extension, etc)
 
+## Released
 
 - version 1.0.3
     - [x] codechef regex fixes
@@ -13,10 +14,7 @@ Todos:
     - [x] code duplicacy fixed
     - [x] UI fixes and new things on UI like logo, loaders, etc
     - [x] logging of every file transaction to ensure trust and reliablity
-    - [ ] customisation in generation of configuration file with more options
-
-
-## Released
+    - [x] customisation in generation of configuration file with more options
 
 - version 1.0.2
     - [x] use case screenshot added
