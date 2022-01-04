@@ -7,8 +7,9 @@ import shutil
 try:
     import constants
     import logger
+    import config
 except Exception:
-    from startcp import constants, logger
+    from startcp import constants, logger, config
 
 logger = logger.Logger()
 
@@ -25,7 +26,8 @@ def create_problem_html_file(problem_file_name, problem_url):
         html_str = get_java_script_code_for_problem(problem_url)
         with open(problem_file_name, "w+") as outfile:
             outfile.write(html_str)
-            logger.info("Making if not exists and writing to: " + problem_file_name)
+            logger.info("Making if not exists and writing to: " +
+                        problem_file_name)
 
 
 def create_solution_prog_files(problem_folder_name):
@@ -37,13 +39,13 @@ def create_solution_prog_files(problem_folder_name):
                     shutil.copy(
                         os.getenv(constants.main_lang_template_path), problem_folder_name + "/")
                     logger.info("Copying from " + os.getenv(constants.main_lang_template_path)
-                        + " to " + problem_folder_name)
+                                + " to " + problem_folder_name)
                     if not (os.getenv(constants.backup_lang_template_path) is None):
                         if Path(os.getenv(constants.backup_lang_template_path)).is_file():
                             shutil.copy(
                                 os.getenv(constants.backup_lang_template_path), problem_folder_name + "/")
                             logger.info("Copying from " + os.getenv(constants.backup_lang_template_path)
-                                + " to " + problem_folder_name)
+                                        + " to " + problem_folder_name)
                 else:
                     tmplt_file_created = False
             else:
@@ -56,10 +58,12 @@ def create_solution_prog_files(problem_folder_name):
     if not tmplt_file_created:
         if not os.path.isfile(problem_folder_name + "/" + "sol.py"):
             Path(problem_folder_name + "/" + "sol.py").touch()
-            logger.info("Making if not exists and writing to: " + problem_folder_name + "/" + "sol.py")
+            logger.info("Making if not exists and writing to: " +
+                        problem_folder_name + "/" + "sol.py")
         if not os.path.isfile(problem_folder_name + "/" + "sol.cpp"):
             Path(problem_folder_name + "/" + "sol.cpp").touch()
-            logger.info("Making if not exists and writing to: " + problem_folder_name + "/" + "sol.cpp")
+            logger.info("Making if not exists and writing to: " +
+                        problem_folder_name + "/" + "sol.cpp")
 
 
 def create_input_output_files(problem_folder_name, input_str, output_str, file_id):
@@ -85,3 +89,27 @@ def get_java_script_code_for_problem(problem_url):
         </body>
     </html>
     """.format(problem_url=problem_url)
+
+
+def push_current_version_to_github(branch_name):
+    try:
+        if config.check_config_for(constants.is_setup_done) and int(config.get_config_for(constants.is_setup_done)) == 1:
+            curr_dir = os.getcwd()
+            os.chdir(config.get_config_for(constants.project_path))
+            logger.info("log_msg: " + "Pushing current version to github")
+            os.system("git add --all")
+            logger.info(
+                "log_msg: " + "Pushing current version to github: git add --all")
+            os.system("git commit -m \"update\"")
+            logger.info(
+                "log_msg: " + "Pushing current version to github: git commit -m \"update\"")
+            os.system("git push origin " + branch_name)
+            logger.info(
+                "log_msg: " + "Pushing current version to github: git push origin")
+            os.chdir(curr_dir)
+        else:
+            print(
+                "Please generate custom configuration file with project path to use this feature.")
+
+    except Exception as e:
+        logger.info("Error while pushing current version to github")

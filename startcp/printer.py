@@ -37,8 +37,8 @@ class Rangebi:
     def get_in_info(self, message):
         return Rangebi.OKBLUE + str(message) + Rangebi.ENDC
 
-    def set_spinner(self):
-        self.spinner = Halo(text='preparing battlespace...', spinner='dots')
+    def set_spinner(self, text="preparing battlespace..."):
+        self.spinner = Halo(text=text, spinner='dots')
 
     def start_spinner(self):
         self.spinner.start()
@@ -66,14 +66,14 @@ def get_dashed_lines(count=1):
         if i == count - 1 and count != 1:
             print(
                 rangebi.get_in_warning(
-                    ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
+                    "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||:"
                 ),
                 end=""
             )
         else:
             print(
                 rangebi.get_in_warning(
-                    ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
+                    "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||:"
                 ),
             )
 
@@ -114,11 +114,18 @@ def print_menu():
         "cp $competition_url"
     )
     print("\t\t-- to build battlespace for the competition")
-    new_lines()
-    print("\t\t-- eg. cp https://www.codechef.com/NOV21B, cp codechef.com/NOV21B, cp codechef/NOV21b ")
+    print("\t\t-- eg. cp https://www.codechef.com/NOV21B, cp codechef.com/NOV21B, cp codechef/NOV21b")
     print("\t\t-- eg. cp https://www.codeforces.com/1616, cp codeforces.com/contest/1616, cp codeforces/1616 ")
 
-    new_lines()
+    get_help_option_text(
+        "b or board or cb or contest board"
+    )
+    print("\t\t-- competitions board")
+
+    get_help_option_text(
+        "v or vw or vc or viewconfig"
+    )
+    print("\t\t-- to toggle view of configuration file")
 
     get_help_option_text(
         "g or generate"
@@ -130,21 +137,27 @@ def print_menu():
     )
     print("\t\t-- to toggle view of configuration file")
 
-
-    new_lines()
+    get_help_option_text(
+        "gp or push or git push"
+    )
+    print("\t\t-- to auto push new changes done to github repository")
+    print("\t\t-- eg. gp develop, push, etc. if executed without parameter will push to master branch")
+    print("\t\t-- Note: first need to set local git repository in project path configure")
 
     get_help_option_text(
         "h or help"
     )
-    print("\t\t-- to print this help")
+    print("\t\t-- to print complete help")
 
-    new_lines()
+    get_help_option_text(
+        "cl or clear logs"
+    )
+    print("\t\t-- to clear the logs")
 
     get_help_option_text(
         "q or e or exit or quit"
     )
     print("\t\t-- exit from the program")
-
 
 
 def get_help_option_text(option_text):
@@ -166,19 +179,18 @@ def get_help_option_text(option_text):
 def print_header():
     rangebi = Rangebi()
 
-    logo = """
-::                                                                                      ::
-::            ____ _____  _    ____ _____ ____ ____        ____ _     ___               ::
-::           / ___|_   _|/ \  |  _ \_   _/ ___|  _ \      / ___| |   |_ _|              ::
-::           \___ \ | | / _ \ | |_) || || |   | |_) |____| |   | |    | |               ::
-::            ___) || |/ ___ \|  _ < | || |___|  __/_____| |___| |___ | |               ::
-::           |____/ |_/_/   \_\_| \_\|_| \____|_|         \____|_____|___|              ::
-::                                                                                      ::
-    """
+    logo = """||                                                                                           ||
+||                ____ _____  _    ____ _____ ____ ____        ____ _     ___                ||
+||               / ___|_   _|/ \  |  _ \_   _/ ___|  _ \      / ___| |   |_ _|               ||
+||               \___ \ | | / _ \ | |_) || || |   | |_) |____| |   | |    | |                ||
+||                ___) || |/ ___ \|  _ < | || |___|  __/_____| |___| |___ | |                ||
+||               |____/ |_/_/   \_\_| \_\|_| \____|_|         \____|_____|___|               ||
+||                                                                                           ||
+"""
     print("")
     print(
         rangebi.get_in_bold(
-            rangebi.get_in_success(
+            rangebi.get_in_warning(
                 logo
             )
         )

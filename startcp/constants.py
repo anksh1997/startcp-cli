@@ -17,10 +17,20 @@ backup_lang_template_path = "BACKUP_LANG_TEMPLATE_PATH"
 seperate_folder_strucutre_enforcement = "SEPERATE_FOLDER_STRUCTURE_FOR_DIFFERENT_SITES"
 codechef_folder_name = "CODECHEF_FOLDER_NAME"
 codeforces_folder_name = "CODEFORCES_FOLDER_NAME"
+after_generation_command = "AFTER_GENERATION_COMMAND"
+git_repository = "GIT_REPOSITORY"
 # END
 
 # API CONFIGURATIONS
 codechef_contest_api_url = "https://www.codechef.com/api/contests/"
+
+contest_board_target_codechef = "https://kontests.net/api/v1/code_chef"
+contest_board_target_codechef = "https://kontests.net/api/v1/code_chef"
+contest_board_target_codeforces = "https://kontests.net/api/v1/codeforces"
+contest_board_target_hackerrank = "https://kontests.net/api/v1/hacker_rank"
+contest_board_target_hackerearth = "https://kontests.net/api/v1/hacker_earth"
+contest_board_target_kickstart = "https://kontests.net/api/v1/kick_start"
+contest_board_target_leetcode = "https://kontests.net/api/v1/leet_code"
 # END
 
 # BASE URIs

@@ -2,9 +2,17 @@
 ## Upcomming Release
 
 Todos:
-    - [ ] competition scanner from CLI
+    - [x] contest_board competitions scanner from CLI -- codechef codeforces
     - [ ] small judge on the cli
     - [ ] scheduling tracking and notifying (email, sms, chrome notification using extension, etc)
+    - [x] git push automation with branch configuration
+    - [x] improvements in error handling
+    - [ ] clear screen implementation complete
+    - [ ] practice problem simulation / private contest simulation
+    - [ ] daily problem from leetcode and other problems by tags number of problem
+    - [ ] for practice checklist of the youtuber integration
+    - [ ] a problem a day practice with Goldilock's rule (need to implement properly)
+
 
 ## Released
 
