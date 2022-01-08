@@ -27,8 +27,9 @@ def get_codechef_problem_urls(comp_url):
             if (response.status_code == 200):
                 response = response.json()
                 for problem in response["problems"].keys():
-                    problem_urls.append(
-                        fetch_url+response["problems"][problem]["problem_url"])
+                    if response["problems"][problem]["category_name"] == "main":
+                        problem_urls.append(
+                            fetch_url+response["problems"][problem]["problem_url"])
     except Exception as e:
         return []
     return problem_urls

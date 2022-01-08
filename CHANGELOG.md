@@ -33,3 +33,4 @@
     - [ ] for practice checklist of the youtuber integration
     - [ ] a problem a day practice with Goldilock's rule (need to implement properly)
     - [x] fixed pylint problem with installing dependecies
+    - [x] fixed codechef filtering for main and non scoring problems
