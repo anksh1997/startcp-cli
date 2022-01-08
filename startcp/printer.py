@@ -123,6 +123,11 @@ def print_menu():
     print("\t\t-- competitions board")
 
     get_help_option_text(
+        "p or pr or pract or practice"
+    )
+    print("\t\t-- for starting practice mode")
+
+    get_help_option_text(
         "v or vw or vc or viewconfig"
     )
     print("\t\t-- to toggle view of configuration file")

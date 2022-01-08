@@ -43,10 +43,8 @@ setuptools.setup(
         'argparse',
         'colorama',
         'python-dotenv',
-        'Rangebi',
         'beautifulsoup4==4.10.0',
         'halo==0.0.31',
-        'prettytable',
-        "python-dateutil==2.8.2"
+        'prettytable'
     ],
 )

@@ -5,11 +5,12 @@ try:
     import constants
     import config
     import contests_board
+    import practice
     import builder
     import version
     import utilities
 except Exception:
-    from startcp import printer, constants, config, contests_board, builder, version, utilities
+    from startcp import printer, constants, config, contests_board, practice, builder, version, utilities
 
 
 rangebi = printer.Rangebi()
@@ -47,7 +48,10 @@ def command(args):
                             )
                         )
                         if config.check_config_for(constants.after_generation_command):
-                            os.system(config.get_config_for(constants.after_generation_command))
+                            os.system(config.get_config_for(
+                                constants.after_generation_command))
+                elif choices[0].lower() in ["p", "pr", "pract", "practice"]:
+                    practice.practice_simulator()
                 elif choices[0].lower() in ["board", "b", "contest board", "cb"]:
                     contests_board.print_board()
                 elif choices[0].lower() in ["g", "gen", "generate"]:
