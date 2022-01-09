@@ -141,16 +141,18 @@ def check_config_for(constant_name):
 
 def get_config_for(constant_name):
     if not (os.getenv(constant_name) is None):
-        return os.getenv(constant_name)
+        return os.getenv(constant_name).replace("'", "")
 
 
 def set_config_for(constant_name):
     constant_value = ""
     while (True):
-        print("Enter " + constant_name + " (ssh url for better exp): ", end="")
+        print("Enter " + constant_name + " ('no' to abort): ", end="")
         constant_value = input().strip()
         if not constant_value:
             print("Invalid input. Please try again.")
+        elif constant_value in ["no", "No", "NO"]:
+            return False
         else:
             break
 

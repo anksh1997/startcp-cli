@@ -50,6 +50,10 @@ def command(args):
                         if config.check_config_for(constants.after_generation_command):
                             os.system(config.get_config_for(
                                 constants.after_generation_command))
+                        else:
+                            if config.set_config_for(constant_name=constants.after_generation_command):
+                                os.system(config.get_config_for(
+                                    constants.after_generation_command))
                 elif choices[0].lower() in ["p", "pr", "pract", "practice"]:
                     practice.practice_simulator()
                 elif choices[0].lower() in ["board", "b", "contest board", "cb"]:
@@ -76,6 +80,7 @@ def command(args):
                     break
                 else:
                     print("Invalid command. Please use h or help for more info.")
+                    printer.new_lines()
 
     except KeyboardInterrupt:
         print("\nProcess aborted by user. Ctrl + C.")

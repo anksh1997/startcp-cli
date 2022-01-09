@@ -1,5 +1,6 @@
 import os
 import re
+import json
 
 from pathlib import Path
 import shutil
@@ -8,8 +9,9 @@ try:
     import constants
     import logger
     import config
+    import builder
 except Exception:
-    from startcp import constants, logger, config
+    from startcp import constants, logger, config, builder
 
 logger = logger.Logger()
 
@@ -113,3 +115,51 @@ def push_current_version_to_github(branch_name):
 
     except Exception as e:
         logger.info("Error while pushing current version to github")
+
+
+def prepare_for_practice_battlespace(problems_details, platform_id):
+    # first moving pointer to the base location of project
+    if not builder.move_pointer():
+        return
+
+    # creating practice problem folder folder
+    if config.check_config_for(constants.practice_folder_name):
+        os.makedirs(config.get_config_for(constants.practice_folder_name),
+                    exist_ok=True)
+        os.chdir(config.get_config_for(constants.practice_folder_name))
+        logger.info("Making if not exists and changing directory to: " +
+                    config.get_config_for(constants.practice_folder_name))
+    else:
+        os.makedirs(constants.practice, exist_ok=True)
+        os.chdir(constants.practice)
+        logger.info(
+            "Making if not exists and changing directory to: " + constants.practice)
+
+    for problem_details in problems_details:
+        """
+        problem_details = {
+            "id":"1",
+            "from_target":"LEETCODE",
+            "title":"TITLE_HERE",
+            "difficulty":"HARD",
+            "accuracy": xx.yy,
+            "url":"PROBLEM_LINK_WITH_BASE_URI",
+            "date": datetime_object,
+            "status": "IN_PROGRESS"
+            "category": "CATEGORY"
+
+        }
+        """
+
+        problem_folder_name = problem_details["from_target"] + \
+            "_" + problem_details["id"]
+        os.makedirs(problem_folder_name, exist_ok=True)
+
+        create_solution_prog_files(problem_folder_name)
+        create_problem_html_file(
+            problem_folder_name + "/" + "problem.html", problem_details['url']
+        )
+
+        if problem_details["from_target"] == constants.leetcode:
+            pass
+            # leet code is having their own templates which can be integrated later
