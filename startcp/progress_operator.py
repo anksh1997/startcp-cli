@@ -73,19 +73,21 @@ def notify_and_update_pending_problems_debt(pending_or_in_progress_problems, pri
     if print_problems:
         printer.new_lines()
         print(rangebi.get_in_warning(
-            "(StartCP) $ Practice Mode> Before you switch to practice mode,"))
+            "(StartCP) $ Practice Mode> "), end="")
         printer.new_lines()
-        print(rangebi.get_in_danger(
-            "(StartCP) $ PROBLEMS/ UPDATES ARE PENDING SINCE LAST PRACTICE SESSION."))
+        print(rangebi.get_in_info(
+            "Problemes or updates are still pending from last practice mode."))
         printer.new_lines()
         print("======================================================================================")
         printer.new_lines()
         # print problems with description to update
         problem_i = 1
+
         for problem in pending_or_in_progress_problems:
             print("- [ ] " + str(problem_i) + " | Problem: " + problem['from_target'] + "_" + problem['id'] + " | Category: " + problem['category'] +
                   " | Difficulty: " + problem['difficulty'] + " | Dated: " + problem['date'][:-9])
             problem_i += 1
+
         printer.new_lines()
         print("======================================================================================")
         printer.new_lines()
@@ -93,12 +95,15 @@ def notify_and_update_pending_problems_debt(pending_or_in_progress_problems, pri
             "-- eg. start 1                       -- to jump right into solving the problem")
         print("-- eg. solved all or solved 1 2 3 4  -- To Mark as Solved.")
         print("-- eg. skip all or skip 1 2 4        -- To Mark as Skipped.")
-        print("-- Hit 0. or exit or back to exit directly to practice mode")
+        print("-- eg. Enter 0. or exit or back to exit directly to practice mode")
         printer.new_lines()
-    print(rangebi.get_in_danger(
+
+    print(rangebi.get_in_warning(
         "(StartCP) $ Practice Mode> Pending Problems Update> "), end="")
+
     choice = input().strip().split()
     printer.new_lines()
+
     if choice[0] == "start":
         if len(choice) < 2:
             print("Please enter problem number to jump on")
@@ -109,7 +114,8 @@ def notify_and_update_pending_problems_debt(pending_or_in_progress_problems, pri
                     if config.check_config_for(constants.practice_folder_name):
                         os.makedirs(config.get_config_for(constants.practice_folder_name),
                                     exist_ok=True)
-                        os.chdir(config.get_config_for(constants.practice_folder_name))
+                        os.chdir(config.get_config_for(
+                            constants.practice_folder_name))
                         logger.info("Making if not exists and changing directory to: " +
                                     config.get_config_for(constants.practice_folder_name))
                     else:
@@ -127,13 +133,77 @@ def notify_and_update_pending_problems_debt(pending_or_in_progress_problems, pri
                             os.system(config.get_config_for(
                                 constants.after_generation_command))
 
-                    webbrowser.open(pending_or_in_progress_problems[int(choice[1]) - 1]['url'])
+                    webbrowser.open(
+                        pending_or_in_progress_problems[int(choice[1]) - 1]['url'])
                 except Exception as e:
                     print(e)
+        printer.new_lines()
+    elif choice[0] in ["solved", "solve"]:
+        if len(choice) == 1:
+            print(
+                rangebi.get_in_danger(
+                    "Please give url as second paramter. eg. solved all, solve 1")
+            )
+        else:
+            problem_ids = choice[1:]
+            update_all = False
+
+            if problem_ids[0] == "all":
+                update_all = True
+
+            if (update_status_in_pending_problems(pending_or_in_progress_problems, choice,
+                constants.problem_status_solved, update_all)):
+                print(
+                    rangebi.get_in_success("Skipped.")
+                )
+
+    elif choice[0] in ["skip", "skipped"]:
+        if len(choice) == 1:
+            print(
+                rangebi.get_in_danger(
+                    "Please give url as second paramter. eg. solved all, solve 1")
+            )
+        else:
+            problem_ids = choice[1:]
+            update_all = False
+
+            if problem_ids[0] == "all":
+                update_all = True
+
+            if (update_status_in_pending_problems(pending_or_in_progress_problems, choice,
+                constants.problem_status_skipped, update_all)):
+                print(
+                    rangebi.get_in_success("Skipped.")
+                )
+
     elif choice[0] == "exit" or choice[0] == "back" or choice[0] == "0":
+        printer.new_lines()
         return
     else:
         print("Invalid choice. Please try again.")
     printer.new_lines()
     notify_and_update_pending_problems_debt(
         pending_or_in_progress_problems, False)
+
+
+def update_status_in_pending_problems(pending_or_in_progress_problems, choice, required_status, update_all):
+    try:
+        for p_interator in range(len(pending_or_in_progress_problems)):
+            if update_all or (str(p_interator + 1) in choice):
+                pending_or_in_progress_problems[p_interator]["status"] = required_status
+        user_progress_dict = json_read(constants.startcp_practice_progress_file)
+
+        if user_progress_dict is None or \
+                'problems' not in user_progress_dict:
+            return
+
+        for pending_problem in pending_or_in_progress_problems:
+            for problem_i in range(len(user_progress_dict['problems'])):
+                if user_progress_dict['problems'][problem_i]['id'] == pending_problem['id'] and \
+                    user_progress_dict['problems'][problem_i]['from_target'] == pending_problem['from_target']:
+                    user_progress_dict['problems'][problem_i] = pending_problem
+        json_write(constants.startcp_practice_progress_file, user_progress_dict)
+        return True
+    except Exception as e:
+        print(e)
+        return False

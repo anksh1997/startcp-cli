@@ -30,12 +30,8 @@
     - [ ] clear screen implementation complete
     - [ ] practice problem simulation / private contest simulation
     - [x] daily problem from leetcode and other problems by tags number of problem
-        - [x] leetcode problem integration
-        - [x] problem tracking workflow
-        - [ ] needs a a lot of code imporvements
-        - [ ] codechef integration daily one problem
     - [ ] problems according to categories
-    - [ ] Strider take you forward checklist
+    - [ ] Strider's take you forward checklist
     - [ ] for practice checklist of the youtuber integration
     - [ ] a problem a day practice with Goldilock's rule (need to implement properly)
     - [x] fixed pylint problem with installing dependecies
